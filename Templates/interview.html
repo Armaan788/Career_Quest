@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Career Interview</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="result-card">
+
+    <h1>🎤 Career Interview</h1>
+
+    <h2>{{ career }}</h2>
+
+    <p class="question">
+        {{ question }}
+    </p>
+
+    <form method="POST">
+
+        <textarea
+            name="answer"
+            rows="6"
+            placeholder="Type your answer..."
+            class="interview-box"></textarea>
+
+        <br><br>
+
+        <button class="btn">
+            Submit Answer
+        </button>
+
+    </form>
+
+    {% if feedback %}
+
+<div class="coach-box">
+
+    <h3>🤖 Interview Feedback</h3>
+
+    <p>{{ feedback }}</p>
+
+</div>
+
+{% endif %}
+
+<br>
+
+<a href="/result" class="btn">
+    ← Back to Results
+</a>
+
+<a href="/" class="btn">
+    🏠 Home
+</a>
+
+</div>
+
+</body>
+</html>

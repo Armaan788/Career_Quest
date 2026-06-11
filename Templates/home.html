@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+
+<title>Career Quest</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+
+</head>
+
+<body>
+
+<button id="theme-toggle" class="theme-toggle">
+    🌙
+</button>
+
+{% if session.get("player_name") %}
+
+<div class="player-corner">
+
+👤 {{ session["player_name"] }}
+
+<br>
+
+⭐ Level {{ level }}
+
+<br>
+
+⚡ {{ xp }} XP
+
+<br><br>
+
+
+<a href="/reset" class="btn">
+    🔄 Switch User
+</a>
+
+</div>
+
+{% endif %}
+
+{% if not session.get("player_name") %}
+
+<div class="name-card">
+
+
+<h2>👋 Welcome to Career Quest</h2>
+
+<form action="/set_name" method="POST">
+
+    <input
+        type="text"
+        name="player_name"
+        placeholder="Enter your name"
+        required
+    >
+
+    <br><br>
+
+    <button type="submit" class="btn">
+        Start Adventure
+    </button>
+
+</form>
+
+
+</div>
+
+{% endif %}
+
+<div class="container">
+
+
+<div class="container">
+
+    <div class="hero">
+
+        <h1>🚀 Career Quest</h1>
+
+        <p>
+            Explore careers, gain XP,
+            unlock achievements,
+            and discover your future.
+        </p>
+
+    </div>
+
+    <!-- MOBILE CAREER MENU -->
+
+    <div class="mobile-career-menu">
+
+        <label for="career-select">
+            Choose a Career
+        </label>
+
+        <select
+            id="career-select"
+            onchange="if(this.value) location=this.value;"
+        >
+
+            <option value="">
+                Select Career
+            </option>
+
+            {% for career in careers %}
+
+            <option value="/start/{{ career }}">
+                {{ career }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <!-- DESKTOP CAREER GRID -->
+
+    <div class="grid">
+
+        {% for career in careers %}
+
+        <a href="/start/{{ career }}" class="card">
+
+            <h2>{{ career }}</h2>
+
+            <p>
+                Begin your journey as a
+                {{ career }}
+            </p>
+
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const toggleBtn =
+        document.getElementById("theme-toggle");
+
+    if (!toggleBtn) return;
+
+    if (localStorage.getItem("theme") === "light") {
+
+        document.body.classList.add("light-mode");
+
+        toggleBtn.textContent = "☀️";
+    }
+
+    toggleBtn.addEventListener("click", function() {
+
+        document.body.classList.toggle("light-mode");
+
+        if (
+            document.body.classList.contains("light-mode")
+        ) {
+
+            localStorage.setItem(
+                "theme",
+                "light"
+            );
+
+            toggleBtn.textContent = "☀️";
+
+        } else {
+
+            localStorage.setItem(
+                "theme",
+                "dark"
+            );
+
+            toggleBtn.textContent = "🌙";
+
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>
