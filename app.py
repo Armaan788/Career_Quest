@@ -416,6 +416,17 @@ def save_players(players):
     with open("players.json", "w") as file:
         json.dump(players, file, indent=4)
 
+def load_stats():
+            if not os.path.exists("stats.json"):
+                return {"visits": 0}
+
+            with open("stats.json", "r") as file:
+                return json.load(file)
+
+def save_stats(stats):
+            with open("stats.json", "w") as file:
+                json.dump(stats, file, indent=4)
+
 
 
 @app.route("/set_name", methods=["POST"])
@@ -452,6 +463,14 @@ def reset():
 @app.route("/")
 def home():
 
+    stats = load_stats()
+
+    stats["visits"] += 1
+
+    save_stats(stats)
+
+    visits = stats["visits"]
+
     xp = session.get("total_xp", 0)
 
     level = (xp // 100) + 1
@@ -486,7 +505,8 @@ def home():
         level=level,
         progress=progress,
         achievements=achievements,
-        careers_completed=careers_completed
+        careers_completed=careers_completed,
+        visits=visits
     )
 
 @app.route("/start/<career>")
@@ -668,6 +688,7 @@ def result():
         level=level,
         achievement_title=achievement_title,
         achievement_text=achievement_text,
+
     )
 @app.route("/interview", methods=["GET", "POST"])
 def interview():

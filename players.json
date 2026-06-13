@@ -1,0 +1,37 @@
+{
+    "Armaan Sharma": {
+        "xp": 2550,
+        "careers_completed": 2,
+        "achievements": [
+            "\ud83c\udfc6 Technical Expert"
+        ]
+    },
+    "Anil Sharma": {
+        "xp": 120,
+        "careers_completed": 2,
+        "achievements": [
+            "\u2b50 Rising Professional"
+        ]
+    },
+    "Jake Maddox": {
+        "xp": 170,
+        "careers_completed": 3,
+        "achievements": [
+            "\ud83c\udfa4 Master Communicator"
+        ]
+    },
+    "raju": {
+        "xp": 220,
+        "careers_completed": 1,
+        "achievements": [
+            "\ud83e\udde9 Problem Solver"
+        ]
+    },
+    " anaya": {
+        "xp": 510,
+        "careers_completed": 4,
+        "achievements": [
+            "\u2b50 Rising Professional"
+        ]
+    }
+}

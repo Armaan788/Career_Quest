@@ -831,3 +831,20 @@ font-size: 1rem;
         font-size: 3rem;
     }
 }
+
+.visitor-counter {
+
+    margin: 20px auto;
+
+    display: inline-block;
+
+    padding: 12px 20px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.08);
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    font-weight: bold;
+}
