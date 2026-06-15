@@ -854,3 +854,84 @@ font-size: 1rem;
     border-radius: 25px;
     margin-bottom: 20px;
 }
+
+.navbar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px 30px;
+
+    backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+}
+
+.nav-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-weight: bold;
+
+    font-size: 1.2rem;
+}
+
+.nav-logo {
+
+    width: 40px;
+
+    border-radius: 10px;
+}
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.nav-links a {
+
+    text-decoration: none;
+
+    color: inherit;
+
+    font-weight: bold;
+}
+
+.nav-player {
+
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+
+    .navbar {
+
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+    .nav-links {
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+}

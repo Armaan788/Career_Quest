@@ -13,6 +13,34 @@
 
 <body>
 
+<nav class="navbar">
+
+    <div class="nav-brand">
+
+        <img src="{{ url_for('static', filename='logo.png') }}"
+             class="nav-logo"
+             alt="Career Quest">
+
+        <span>Career Quest</span>
+
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">🏠 Home</a>
+
+        {% if session.get("player_name") %}
+
+        <span class="nav-player">
+            👤 {{ session["player_name"] }}
+        </span>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
 <button id="theme-toggle" class="theme-toggle">
     🌙
 </button>
