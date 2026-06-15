@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Career Quest</title>
+
+    <link rel="icon"
+          href="{{ url_for('static', filename='logo.png') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<button id="theme-toggle" class="theme-toggle">
+    🌙
+</button>
+
+{% block content %}
+{% endblock %}
+
+<footer class="footer">
+    🚀 Career Quest • Created by
+    <a href="https://github.com/Armaan788"
+       target="_blank">
+        Armaan Sharma
+    </a>
+    © 2026
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const toggleBtn = document.getElementById("theme-toggle");
+
+    if (!toggleBtn) return;
+
+    if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light-mode");
+        toggleBtn.textContent = "☀️";
+    }
+
+    toggleBtn.addEventListener("click", function() {
+
+        document.body.classList.toggle("light-mode");
+
+        if (document.body.classList.contains("light-mode")) {
+            localStorage.setItem("theme", "light");
+            toggleBtn.textContent = "☀️";
+        } else {
+            localStorage.setItem("theme", "dark");
+            toggleBtn.textContent = "🌙";
+        }
+
+    });
+
+});
+</script>
+
+</body>
+
+</html>

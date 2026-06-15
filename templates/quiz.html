@@ -1,33 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Career Quest</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block content %}
+
+<a href="/" class="floating-back">
+    ← Back
+</a>
 
 <div class="quiz-card">
 
-    <h3>{{ career }}</h3>
+    <h2>{{ career }}</h2>
 
     <p>
         Question {{ index + 1 }} of {{ total }}
     </p>
 
-    <br>
+    {% if scenario %}
 
     <div class="scenario-box">
 
-    <h3>🎲 Today's Scenario</h3>
+        <h3>🎲 Today's Scenario</h3>
 
-    <p>{{ scenario }}</p>
+        <p>{{ scenario }}</p>
 
-</div>
+    </div>
+
+    {% endif %}
+
+    {% if story %}
 
     <div class="story-box">
         {{ story }}
     </div>
+
+    {% endif %}
 
     <div class="question">
         {{ q.q }}
@@ -38,10 +43,10 @@
         {% for option, score in q.options %}
 
         <button
-            class="option-btn"
             type="submit"
             name="score"
-            value="{{ score }}">
+            value="{{ score }}"
+            class="option-btn">
             {{ option }}
         </button>
 
@@ -49,13 +54,6 @@
 
     </form>
 
-    <br>
-
-    <a href="/" class="btn">
-        ← Back Home
-    </a>
-
 </div>
 
-</body>
-</html>
+{% endblock %}

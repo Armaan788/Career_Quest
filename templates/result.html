@@ -1,113 +1,100 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html>
-
-<head>
-    <title>Results</title>
-
-```
-<link rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}">
-```
-
-</head>
-
-<body>
+{% block content %}
 
 <div class="result-card">
 
-```
-<h1>🎯 Results</h1>
+    <h1>🎯 Results</h1>
 
-<h2>{{ career }}</h2>
+    <h2>{{ career }}</h2>
 
-<div class="score">
-    {{ score }}%
-</div>
-
-<div class="player-profile">
-
-    <h3>⭐ Level {{ level }}</h3>
-
-    <p>{{ xp }} XP Earned</p>
-
-    <div class="level-bar">
-        <div class="level-fill"
-             style="width: {{ xp % 100 }}%;">
-        </div>
+    <div class="score">
+        {{ score }}%
     </div>
 
-</div>
+    <div class="player-profile">
 
-<div class="achievement-box">
+        <h3>⭐ Level {{ level }}</h3>
 
-    <h2>🏆 {{ achievement_title }}</h2>
+        <p>{{ xp }} XP Earned</p>
 
-    <p>{{ achievement_text }}</p>
-
-</div>
-
-<div class="coach-box">
-
-    <h3>🤖 AI Career Coach</h3>
-
-    <p>{{ advice }}</p>
-
-</div>
-
-<div class="career-info">
-
-    <h3>Career Information</h3>
-
-    <p>
-        <strong>Average Salary:</strong>
-        {{ info.salary }}
-    </p>
-
-    <p>
-        <strong>Education:</strong>
-        {{ info.education }}
-    </p>
-
-    <p>
-        <strong>Job Growth:</strong>
-        {{ info.growth }}
-    </p>
-
-</div>
-
-<h3>Skill Breakdown</h3>
-
-{% for skill, value in skills.items() %}
-
-    <p>{{ skill }} - {{ value }}%</p>
-
-    <div class="bar">
-
-        <div class="fill"
-             style="width: {{ value }}%;">
+        <div class="level-bar">
+            <div class="level-fill"
+                 style="width: {{ xp % 100 }}%;">
+            </div>
         </div>
 
     </div>
 
-    <br>
+    <div class="achievement-box">
 
-{% endfor %}
+        <h3>🏅 Achievement Unlocked</h3>
 
-<div class="button-row">
+        <h2>{{ achievement_title }}</h2>
 
-    <a href="/interview" class="btn">
-        🎤 Career Interview
-    </a>
+        <p>{{ achievement_text }}</p>
 
-    <a href="/" class="btn secondary-btn">
-        🚀 Try Another Career
-    </a>
+    </div>
+
+    <div class="coach-box">
+
+        <h3>🤖 AI Career Coach</h3>
+
+        <p>{{ advice }}</p>
+
+    </div>
+
+    <div class="career-info">
+
+        <h3>Career Information</h3>
+
+        <p>
+            <strong>Average Salary:</strong>
+            {{ info.salary }}
+        </p>
+
+        <p>
+            <strong>Education:</strong>
+            {{ info.education }}
+        </p>
+
+        <p>
+            <strong>Job Growth:</strong>
+            {{ info.growth }}
+        </p>
+
+    </div>
+
+    <h3>Skill Breakdown</h3>
+
+    {% for skill, value in skills.items() %}
+
+        <p>{{ skill }} - {{ value }}%</p>
+
+        <div class="bar">
+
+            <div class="fill"
+                 style="width: {{ value }}%;">
+            </div>
+
+        </div>
+
+        <br>
+
+    {% endfor %}
+
+    <div class="button-row">
+
+        <a href="/interview" class="btn">
+            🎤 Career Interview
+        </a>
+
+        <a href="/" class="btn secondary-btn">
+            🚀 Try Another Career
+        </a>
+
+    </div>
 
 </div>
-```
 
-</div>
-
-</body>
-</html>
+{% endblock %}

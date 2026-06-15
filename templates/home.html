@@ -1,45 +1,25 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html>
-
-<head>
-
-
-<title>Career Quest</title>
-
-<link rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}">
-
-
-</head>
-
-<body>
-
-<button id="theme-toggle" class="theme-toggle">
-    🌙
-</button>
+{% block content %}
 
 {% if session.get("player_name") %}
 
 <div class="player-corner">
+    👤 {{ session["player_name"] }}
 
-👤 {{ session["player_name"] }}
+    <br>
 
-<br>
+    ⭐ Level {{ level }}
 
-⭐ Level {{ level }}
+    <br>
 
-<br>
+    ⚡ {{ xp }} XP
 
-⚡ {{ xp }} XP
+    <br><br>
 
-<br><br>
-
-
-<a href="/reset" class="btn">
-    🔄 Switch User
-</a>
-
+    <a href="/reset" class="btn">
+        🔄 Switch Player
+    </a>
 </div>
 
 {% endif %}
@@ -48,26 +28,24 @@
 
 <div class="name-card">
 
+    <h2>👋 Welcome to Career Quest</h2>
 
-<h2>👋 Welcome to Career Quest</h2>
+    <form action="/set_name" method="POST">
 
-<form action="/set_name" method="POST">
+        <input
+            type="text"
+            name="player_name"
+            placeholder="Enter your name"
+            required
+        >
 
-    <input
-        type="text"
-        name="player_name"
-        placeholder="Enter your name"
-        required
-    >
+        <br><br>
 
-    <br><br>
+        <button type="submit" class="btn">
+            Start Adventure
+        </button>
 
-    <button type="submit" class="btn">
-        Start Adventure
-    </button>
-
-</form>
-
+    </form>
 
 </div>
 
@@ -75,12 +53,13 @@
 
 <div class="container">
 
-
-<div class="container">
-
     <div class="hero">
 
-        <h1>🚀 Career Quest</h1>
+        <img src="{{ url_for('static', filename='logo.png') }}"
+             class="main-logo"
+             alt="Career Quest Logo">
+
+        <h1>Career Quest</h1>
 
         <p>
             Explore careers, gain XP,
@@ -88,13 +67,15 @@
             and discover your future.
         </p>
 
+        {% if session.get("is_admin") %}
+
+        <div class="visitor-counter">
+            👀 {{ visits }} total visits
+        </div>
+
+        {% endif %}
+
     </div>
-
-    <div class="visitor-counter">
-    👀 {{ visits }} total visits
-</div>
-
-    <!-- MOBILE CAREER MENU -->
 
     <div class="mobile-career-menu">
 
@@ -123,8 +104,6 @@
 
     </div>
 
-    <!-- DESKTOP CAREER GRID -->
-
     <div class="grid">
 
         {% for career in careers %}
@@ -146,54 +125,4 @@
 
 </div>
 
-<script>
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    const toggleBtn =
-        document.getElementById("theme-toggle");
-
-    if (!toggleBtn) return;
-
-    if (localStorage.getItem("theme") === "light") {
-
-        document.body.classList.add("light-mode");
-
-        toggleBtn.textContent = "☀️";
-    }
-
-    toggleBtn.addEventListener("click", function() {
-
-        document.body.classList.toggle("light-mode");
-
-        if (
-            document.body.classList.contains("light-mode")
-        ) {
-
-            localStorage.setItem(
-                "theme",
-                "light"
-            );
-
-            toggleBtn.textContent = "☀️";
-
-        } else {
-
-            localStorage.setItem(
-                "theme",
-                "dark"
-            );
-
-            toggleBtn.textContent = "🌙";
-
-        }
-
-    });
-
-});
-
-</script>
-
-</body>
-
-</html>
+{% endblock %}

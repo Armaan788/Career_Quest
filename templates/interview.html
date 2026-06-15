@@ -1,18 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Career Interview</title>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block content %}
 
 <div class="result-card">
 
     <h1>🎤 Career Interview</h1>
 
     <h2>{{ career }}</h2>
+
+    {% if scenario %}
+
+    <div class="scenario-box">
+
+        <h3>🎲 Scenario</h3>
+
+        <p>{{ scenario }}</p>
+
+    </div>
+
+    {% endif %}
 
     <p class="question">
         {{ question }}
@@ -24,7 +30,8 @@
             name="answer"
             rows="6"
             placeholder="Type your answer..."
-            class="interview-box"></textarea>
+            class="interview-box"
+            required></textarea>
 
         <br><br>
 
@@ -36,27 +43,28 @@
 
     {% if feedback %}
 
-<div class="coach-box">
+    <div class="coach-box">
 
-    <h3>🤖 Interview Feedback</h3>
+        <h3>🤖 Interview Feedback</h3>
 
-    <p>{{ feedback }}</p>
+        <p>{{ feedback }}</p>
+
+    </div>
+
+    {% endif %}
+
+    <div class="button-row">
+
+        <a href="/result" class="btn">
+            ← Back to Results
+        </a>
+
+        <a href="/" class="btn secondary-btn">
+            🏠 Home
+        </a>
+
+    </div>
 
 </div>
 
-{% endif %}
-
-<br>
-
-<a href="/result" class="btn">
-    ← Back to Results
-</a>
-
-<a href="/" class="btn">
-    🏠 Home
-</a>
-
-</div>
-
-</body>
-</html>
+{% endblock %}
