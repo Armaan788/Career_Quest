@@ -67,6 +67,30 @@
             and discover your future.
         </p>
 
+        <div class="home-stats">
+
+    <div class="stat-card">
+        <h3>👥 {{ total_players }}</h3>
+        <p>Players</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>👀 {{ visits }}</h3>
+        <p>Total Visits</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>🏆 {{ total_achievements }}</h3>
+        <p>Achievements</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>🎓 {{ total_careers_completed }}</h3>
+        <p>Careers Completed</p>
+    </div>
+
+</div>
+
         {% if session.get("is_admin") %}
 
         <div class="visitor-counter">

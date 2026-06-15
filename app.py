@@ -464,25 +464,20 @@ def reset():
 def home():
 
     stats = load_stats()
-
     stats["visits"] += 1
-
     save_stats(stats)
-
     visits = stats["visits"]
 
     xp = session.get("total_xp", 0)
-
     level = (xp // 100) + 1
-
     progress = xp % 100
 
     achievements = 0
     careers_completed = 0
 
-    if session.get("player_name"):
+    players = load_players()
 
-        players = load_players()
+    if session.get("player_name"):
 
         player = players.get(
             session["player_name"],
@@ -498,6 +493,22 @@ def home():
             0
         )
 
+    total_players = len(players)
+
+    total_achievements = 0
+    total_careers_completed = 0
+
+    for player in players.values():
+
+        total_achievements += len(
+            player.get("achievements", [])
+        )
+
+        total_careers_completed += player.get(
+            "careers_completed",
+            0
+        )
+
     return render_template(
         "home.html",
         careers=careers.keys(),
@@ -506,7 +517,10 @@ def home():
         progress=progress,
         achievements=achievements,
         careers_completed=careers_completed,
-        visits=visits
+        visits=visits,
+        total_players=total_players,
+        total_achievements=total_achievements,
+        total_careers_completed=total_careers_completed
     )
 
 @app.route("/start/<career>")
