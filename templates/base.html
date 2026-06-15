@@ -1,93 +1,142 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
-    <title>Career Quest</title>
 
-    <link rel="icon"
-          href="{{ url_for('static', filename='logo.png') }}">
+```
+<title>Career Quest</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon"
+      href="{{ url_for('static', filename='logo.png') }}">
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+```
+
 </head>
 
 <body>
 
 <nav class="navbar">
 
-    <div class="nav-brand">
+```
+<div class="nav-brand">
 
-        <img src="{{ url_for('static', filename='logo.png') }}"
-             class="nav-logo"
-             alt="Career Quest">
+    <img src="{{ url_for('static', filename='logo.png') }}"
+         class="nav-logo"
+         alt="Career Quest">
 
-        <span>Career Quest</span>
+    <span>Career Quest</span>
 
-    </div>
+</div>
 
-    <div class="nav-links">
+<div class="nav-links">
 
-        <a href="/">🏠 Home</a>
+    <a href="/">
+        🏠 Home
+    </a>
 
-        {% if session.get("player_name") %}
+    {% if session.get("player_name") %}
 
-      <a href="/dashboard">
-    📊 Dashboard
-</a>
+    <a href="/dashboard">
+        📊 Dashboard
+    </a>
 
-        <span class="nav-player">
-            👤 {{ session["player_name"] }}
-        </span>
+    <span class="nav-player">
+        👤 {{ session["player_name"] }}
+    </span>
 
-        {% endif %}
+    {% endif %}
 
-    </div>
+    <button id="theme-toggle" class="theme-toggle">
+        🌙
+    </button>
+
+</div>
+```
 
 </nav>
-
-<button id="theme-toggle" class="theme-toggle">
-    🌙
-</button>
 
 {% block content %}
 {% endblock %}
 
 <footer class="footer">
-    🚀 Career Quest • Created by
-    <a href="https://github.com/Armaan788"
-       target="_blank">
-        Armaan Sharma
-    </a>
-    © 2026
+
+```
+🚀 Career Quest • Created by
+
+<a href="https://github.com/Armaan788"
+   target="_blank">
+
+    Armaan Sharma
+
+</a>
+
+© 2026
+```
+
 </footer>
 
 <script>
+
 document.addEventListener("DOMContentLoaded", function() {
 
-    const toggleBtn = document.getElementById("theme-toggle");
+    const toggleBtn =
+        document.getElementById("theme-toggle");
 
     if (!toggleBtn) return;
 
-    if (localStorage.getItem("theme") === "light") {
-        document.body.classList.add("light-mode");
+    if (
+        localStorage.getItem("theme")
+        === "light"
+    ) {
+
+        document.body.classList.add(
+            "light-mode"
+        );
+
         toggleBtn.textContent = "☀️";
     }
 
-    toggleBtn.addEventListener("click", function() {
+    toggleBtn.addEventListener(
+        "click",
+        function() {
 
-        document.body.classList.toggle("light-mode");
+            document.body.classList.toggle(
+                "light-mode"
+            );
 
-        if (document.body.classList.contains("light-mode")) {
-            localStorage.setItem("theme", "light");
-            toggleBtn.textContent = "☀️";
-        } else {
-            localStorage.setItem("theme", "dark");
-            toggleBtn.textContent = "🌙";
+            if (
+                document.body.classList.contains(
+                    "light-mode"
+                )
+            ) {
+
+                localStorage.setItem(
+                    "theme",
+                    "light"
+                );
+
+                toggleBtn.textContent =
+                    "☀️";
+
+            } else {
+
+                localStorage.setItem(
+                    "theme",
+                    "dark"
+                );
+
+                toggleBtn.textContent =
+                    "🌙";
+            }
+
         }
-
-    });
+    );
 
 });
+
 </script>
 
 </body>
