@@ -750,5 +750,41 @@ def interview():
             feedback=feedback,
             scenario = scenario
         )
+
+@app.route("/dashboard")
+def dashboard():
+
+    if not session.get("player_name"):
+
+        return redirect(url_for("home"))
+
+    players = load_players()
+
+    name = session["player_name"]
+
+    player = players.get(
+        name,
+        {
+            "xp": 0,
+            "careers_completed": 0,
+            "achievements": []
+        }
+    )
+
+    xp = player.get("xp", 0)
+
+    level = (xp // 100) + 1
+
+    progress = xp % 100
+
+    return render_template(
+        "dashboard.html",
+        name=name,
+        xp=xp,
+        level=level,
+        progress=progress,
+        careers_completed=player.get("careers_completed", 0),
+        achievements=player.get("achievements", [])
+    )
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="hero">
+
+        <h1>📊 My Dashboard</h1>
+
+        <p>
+            Track your progress, achievements,
+            and career exploration journey.
+        </p>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="stat-card">
+
+            <h2>⭐ Level</h2>
+
+            <h1>{{ level }}</h1>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>⚡ XP</h2>
+
+            <h1>{{ xp }}</h1>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>🎓 Careers Completed</h2>
+
+            <h1>{{ careers_completed }}</h1>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>🏆 Achievements</h2>
+
+            <h1>{{ achievements|length }}</h1>
+
+        </div>
+
+    </div>
+
+    <div class="player-card">
+
+        <h2>👤 {{ name }}</h2>
+
+        <p>
+            Current Level Progress
+        </p>
+
+        <div class="level-bar">
+
+            <div
+                class="level-fill"
+                style="width: {{ progress }}%;">
+            </div>
+
+        </div>
+
+        <p>
+            {{ progress }} / 100 XP
+            until next level
+        </p>
+
+    </div>
+
+    <div class="achievement-box">
+
+        <h2>🏆 Achievement Collection</h2>
+
+        {% if achievements %}
+
+            {% for achievement in achievements %}
+
+                <div class="achievement-item">
+
+                    {{ achievement }}
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>
+                No achievements unlocked yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+    <div class="button-row">
+
+        <a href="/" class="btn">
+
+            🚀 Explore Careers
+
+        </a>
+
+        <a href="/reset" class="btn secondary-btn">
+
+            🔄 Switch Player
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
