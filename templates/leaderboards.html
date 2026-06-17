@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container leaderboard-page">
+
+    <header class="leaderboard-header">
+        <p class="section-label">Career Quest Community</p>
+        <h1>Leaderboards</h1>
+        <p>See the community’s progress and top explorers.</p>
+    </header>
+
+    <div class="leaderboard-stats">
+
+        <div>
+            <strong>{{ stats["total_players"] }}</strong>
+            <span>Players</span>
+        </div>
+
+        <div>
+            <strong>{{ stats["visits"] }}</strong>
+            <span>Total Visits</span>
+        </div>
+
+        <div>
+            <strong>{{ stats["total_achievements"] }}</strong>
+            <span>Achievements</span>
+        </div>
+
+        <div>
+            <strong>{{ stats["total_careers_completed"] }}</strong>
+            <span>Careers Completed</span>
+        </div>
+
+    </div>
+
+    <section class="player-ranking">
+
+        <div class="ranking-heading">
+            <h2>Top Players</h2>
+            <span>Ranked by XP</span>
+        </div>
+
+        {% if players %}
+
+        <div class="ranking-list">
+
+            {% for player in players %}
+
+            <div class="ranking-row {% if loop.index <= 3 %}top-player{% endif %}">
+
+                <span class="ranking-position">
+                    #{{ loop.index }}
+                </span>
+
+                <div class="ranking-player">
+                    <strong>{{ player["name"] }}</strong>
+                    <span>Level {{ (player["xp"] // 100) + 1 }}</span>
+                </div>
+
+                <div class="ranking-value">
+                    <strong>{{ player["xp"] }}</strong>
+                    <span>XP</span>
+                </div>
+
+                <div class="ranking-value">
+                    <strong>{{ player["careers_completed"] }}</strong>
+                    <span>Careers</span>
+                </div>
+
+                <div class="ranking-value">
+                    <strong>{{ player["achievements"] }}</strong>
+                    <span>Achievements</span>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-ranking">
+            No players have joined yet.
+        </p>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+{% endblock %}

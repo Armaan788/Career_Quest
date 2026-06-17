@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container saved-page">
+
+    <header class="saved-header">
+        <p class="section-label">Your Picks</p>
+        <h1>Saved Careers</h1>
+        <p>Careers you want to revisit later.</p>
+    </header>
+
+    {% if saved_items %}
+
+    <div class="grid">
+
+        {% for item in saved_items %}
+
+        <a
+            href="{{ url_for('career_detail', career=item['name']) }}"
+            class="card"
+        >
+            <p class="section-label">
+                {{ item["category"] }}
+            </p>
+
+            <h2>{{ item["name"] }}</h2>
+
+            <p>
+                {{ item["info"]["salary"] }} •
+                {{ item["info"]["growth"] }} growth
+            </p>
+
+            <span class="card-action">
+                View career →
+            </span>
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <p class="empty-ranking">
+        No saved careers yet.
+    </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container compare-page">
+
+    <header class="compare-header">
+        <p class="section-label">Career Tools</p>
+        <h1>Compare Careers</h1>
+        <p>Choose up to three careers and compare them side by side.</p>
+    </header>
+
+    <form method="POST" class="compare-form">
+
+        <div class="compare-select-grid">
+
+            {% for career in careers %}
+
+            <label class="compare-option">
+                <input
+                    type="checkbox"
+                    name="careers"
+                    value="{{ career }}"
+                    {% if career in selected_careers %}checked{% endif %}
+                >
+
+                <span>{{ career }}</span>
+            </label>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="compare-actions">
+
+    <button type="submit" class="btn compare-submit">
+        Compare Selected Careers
+    </button>
+
+    <a href="{{ url_for('compare') }}" class="btn secondary-btn">
+        Reset
+    </a>
+
+</div>
+
+    </form>
+
+    {% if compared %}
+
+    <section class="compare-results">
+
+        {% for item in compared %}
+
+        <div class="compare-card">
+
+            <h2>{{ item["name"] }}</h2>
+
+            <p>
+                <strong>Salary</strong>
+                <span>{{ item["info"]["salary"] }}</span>
+            </p>
+
+            <p>
+                <strong>Education</strong>
+                <span>{{ item["info"]["education"] }}</span>
+            </p>
+
+            <p>
+                <strong>Growth</strong>
+                <span>{{ item["info"]["growth"] }}</span>
+            </p>
+
+            <a
+                href="{{ url_for('start', career=item['name']) }}"
+                class="btn secondary-btn"
+            >
+                Try Simulation
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+    {% endif %}
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const checkboxes = document.querySelectorAll(
+        'input[name="careers"]'
+    );
+
+    checkboxes.forEach(function (box) {
+
+        box.addEventListener("change", function () {
+
+            const checked = document.querySelectorAll(
+                'input[name="careers"]:checked'
+            );
+
+            if (checked.length > 3) {
+                box.checked = false;
+                alert("Choose up to 3 careers.");
+            }
+
+        });
+
+    });
+
+});
+</script>
+
+{% endblock %}

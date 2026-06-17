@@ -5,30 +5,39 @@
 {% if session.get("player_name") %}
 
 <div class="player-corner">
-    👤 {{ session["player_name"] }}
 
-    <br>
+    👤 {{ session["player_name"] }}<br>
+    ⭐ Level {{ level }}<br>
+    ⚡ {{ xp }} XP<br>
+    {% if personality_profile %}
 
-    ⭐ Level {{ level }}
+<br>
 
-    <br>
+🧠 {{ personality_profile["title"] }}
 
-    ⚡ {{ xp }} XP
+<br>
 
-    <br><br>
+<small>
+    {{ personality_profile["category"] }} fit ·
+    {{ personality_profile["confidence"] }}%
+</small>
+
+{% endif %}
 
     <a href="/reset" class="btn">
-        🔄 Switch Player
+        Switch Player
     </a>
+
 </div>
 
 {% endif %}
+
 
 {% if not session.get("player_name") %}
 
 <div class="name-card">
 
-    <h2>👋 Welcome to Career Quest</h2>
+    <h2>Welcome to Career Quest</h2>
 
     <form action="/set_name" method="POST">
 
@@ -38,8 +47,6 @@
             placeholder="Enter your name"
             required
         >
-
-        <br><br>
 
         <button type="submit" class="btn">
             Start Adventure
@@ -51,102 +58,234 @@
 
 {% endif %}
 
+
 <div class="container">
 
     <div class="hero">
 
-        <img src="{{ url_for('static', filename='logo.png') }}"
-             class="main-logo"
-             alt="Career Quest Logo">
+        <img
+            src="{{ url_for('static', filename='logo.png') }}"
+            class="main-logo"
+            alt="Career Quest Logo"
+        >
 
         <h1>Career Quest</h1>
 
         <p>
-            Explore careers, gain XP,
-            unlock achievements,
+            Explore careers, gain XP, unlock achievements,
             and discover your future.
         </p>
 
-        <div class="home-stats">
+        <a
+            href="{{ url_for('start_career_match') }}"
+            class="btn career-match-btn"
+        >
+            Find My Career
+        </a>
 
-    <div class="stat-card">
-        <h3>👥 {{ total_players }}</h3>
-        <p>Players</p>
     </div>
 
-    <div class="stat-card">
-        <h3>👀 {{ visits }}</h3>
-        <p>Total Visits</p>
-    </div>
 
-    <div class="stat-card">
-        <h3>🏆 {{ total_achievements }}</h3>
-        <p>Achievements</p>
-    </div>
+    <section class="career-browser">
 
-    <div class="stat-card">
-        <h3>🎓 {{ total_careers_completed }}</h3>
-        <p>Careers Completed</p>
-    </div>
+        <div class="career-browser-heading">
+
+            <div class="career-search-wrap">
+
+    <input
+        type="text"
+        id="career-search"
+        class="career-search"
+        placeholder="Search all 35 careers..."
+        autocomplete="off"
+    >
+
+    <p
+        id="career-search-status"
+        class="career-search-status"
+        hidden
+    >
+        No careers found.
+    </p>
 
 </div>
 
-        {% if session.get("is_admin") %}
+            <div>
+                <p class="section-label">
+                    Career Library
+                </p>
 
-        <div class="visitor-counter">
-            👀 {{ visits }} total visits
+                <h2>What interests you?</h2>
+            </div>
+
+            <p>
+                Pick a category to explore its careers.
+            </p>
+
         </div>
 
-        {% endif %}
 
-    </div>
+        <div class="category-tabs" role="tablist">
 
-    <div class="mobile-career-menu">
+            {% for category, category_careers in career_categories.items() %}
 
-        <label for="career-select">
-            Choose a Career
-        </label>
+            <button
+                type="button"
+                class="category-tab {% if loop.first %}active{% endif %}"
+                data-category="category-{{ loop.index0 }}"
+                aria-selected="{{ 'true' if loop.first else 'false' }}"
+            >
+                <span>{{ category }}</span>
 
-        <select
-            id="career-select"
-            onchange="if(this.value) location=this.value;"
-        >
-
-            <option value="">
-                Select Career
-            </option>
-
-            {% for career in careers %}
-
-            <option value="/start/{{ career }}">
-                {{ career }}
-            </option>
+                <span class="category-count">
+                    {{ category_careers|length }}
+                </span>
+            </button>
 
             {% endfor %}
 
-        </select>
+        </div>
 
-    </div>
 
-    <div class="grid">
+        <div class="category-panels">
 
-        {% for career in careers %}
+            {% for category, category_careers in career_categories.items() %}
 
-        <a href="/start/{{ career }}" class="card">
+            <section
+                id="category-{{ loop.index0 }}"
+                class="career-category-panel"
+                {% if not loop.first %}hidden{% endif %}
+            >
 
-            <h2>{{ career }}</h2>
+                <div class="category-panel-heading">
 
-            <p>
-                Begin your journey as a
-                {{ career }}
-            </p>
+                    <h3>{{ category }}</h3>
 
-        </a>
+                    <span>
+                        {{ category_careers|length }} careers
+                    </span>
 
-        {% endfor %}
+                </div>
 
-    </div>
+
+                <div class="grid">
+
+                    {% for career in category_careers %}
+
+                    <a
+                        href="{{ url_for('career_detail', career=career) }}"
+                        class="card"
+                    >
+
+                        <h2>{{ career }}</h2>
+
+                        <p>
+                            Begin your {{ career }} simulation
+                        </p>
+
+                        <span class="card-action">
+                            Explore career →
+                        </span>
+
+                    </a>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
 
 </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const tabs = document.querySelectorAll(".category-tab");
+    const panels = document.querySelectorAll(".career-category-panel");
+    const searchInput = document.getElementById("career-search");
+    const searchStatus = document.getElementById("career-search-status");
+
+    function showOnlyActivePanel() {
+        const activeTab = document.querySelector(".category-tab.active");
+        const activeId = activeTab.dataset.category;
+
+        panels.forEach(function (panel) {
+            panel.hidden = panel.id !== activeId;
+
+            panel.querySelectorAll(".card").forEach(function (card) {
+                card.style.display = "";
+            });
+        });
+
+        searchStatus.hidden = true;
+    }
+
+    function filterCareers() {
+        const query = searchInput.value.trim().toLowerCase();
+        let totalMatches = 0;
+
+        if (!query) {
+            showOnlyActivePanel();
+            return;
+        }
+
+        panels.forEach(function (panel) {
+            let panelMatches = 0;
+
+            panel.querySelectorAll(".card").forEach(function (card) {
+                const careerName = card
+                    .querySelector("h2")
+                    .textContent
+                    .toLowerCase();
+
+                const isMatch = careerName.includes(query);
+
+                card.style.display = isMatch ? "" : "none";
+
+                if (isMatch) {
+                    panelMatches += 1;
+                    totalMatches += 1;
+                }
+            });
+
+            panel.hidden = panelMatches === 0;
+        });
+
+        searchStatus.hidden = totalMatches !== 0;
+    }
+
+    tabs.forEach(function (tab) {
+
+        tab.addEventListener("click", function () {
+
+            tabs.forEach(function (item) {
+                item.classList.remove("active");
+                item.setAttribute("aria-selected", "false");
+            });
+
+            tab.classList.add("active");
+            tab.setAttribute("aria-selected", "true");
+
+            if (searchInput.value.trim()) {
+                filterCareers();
+            } else {
+                showOnlyActivePanel();
+            }
+
+        });
+
+    });
+
+    searchInput.addEventListener("input", filterCareers);
+
+});
+</script>
 
 {% endblock %}

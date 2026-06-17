@@ -2,99 +2,312 @@
 
 {% block content %}
 
-<div class="result-card">
+<div class="result-page">
 
-    <h1>🎯 Results</h1>
+    <section class="result-hero">
 
-    <h2>{{ career }}</h2>
+        <div>
 
-    <div class="score">
-        {{ score }}%
-    </div>
+            <p class="section-label">
+                Simulation Complete
+            </p>
 
-    <div class="player-profile">
+            <h1>{{ career }}</h1>
 
-        <h3>⭐ Level {{ level }}</h3>
+            <p>
+                You scored {{ score }}%. Review your strongest skills, growth areas,
+                and next recommended career.
+            </p>
 
-        <p>{{ xp }} XP Earned</p>
+        </div>
 
-        <div class="level-bar">
-            <div class="level-fill"
-                 style="width: {{ xp % 100 }}%;">
+        <div class="score-ring" style="--score: {{ score }};">
+
+            <strong>{{ score }}%</strong>
+
+            <span>Fit Score</span>
+
+        </div>
+
+    </section>
+
+    <section class="result-summary-grid">
+
+        <div class="result-stat">
+
+            <span>Strongest Skill</span>
+
+            <strong>
+                {% if strongest_skill %}
+                    {{ strongest_skill }}
+                {% else %}
+                    Not enough data
+                {% endif %}
+            </strong>
+
+        </div>
+
+        <section class="personality-card">
+
+    <p class="section-label">
+        Career Personality
+    </p>
+
+    <h2>{{ personality["title"] }}</h2>
+
+    <p>
+        {{ personality["description"] }}
+    </p>
+
+    {% if personality["category"] %}
+
+    <span>
+        Strong category fit:
+        {{ personality["category"] }}
+    </span>
+
+    {% endif %}
+
+</section>
+
+        <div class="result-stat">
+
+            <span>Growth Skill</span>
+
+            <strong>
+                {% if growth_skill %}
+                    {{ growth_skill }}
+                {% else %}
+                    Not enough data
+                {% endif %}
+            </strong>
+
+        </div>
+
+        <div class="result-stat">
+
+            <span>Current Level</span>
+
+            <strong>Level {{ level }}</strong>
+
+        </div>
+
+    </section>
+
+    <section class="result-section">
+
+        <div class="section-heading-row">
+
+            <div>
+                <p class="section-label">Skill Breakdown</p>
+                <h2>Your Skill Profile</h2>
             </div>
+
+        </div>
+
+        <div class="skill-breakdown">
+
+            {% for skill, value in skills.items() %}
+
+            <div class="skill-row">
+
+                <div class="skill-row-top">
+                    <strong>{{ skill }}</strong>
+                    <span>{{ value }}%</span>
+                </div>
+
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        style="width: {{ value }}%;"
+                    ></div>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <section class="result-section featured-section">
+
+        <div class="section-heading-row">
+
+            <div>
+                <p class="section-label">Achievement</p>
+                <h2>{{ achievement_title }}</h2>
+            </div>
+
+        </div>
+
+        <p>
+            {{ achievement_text }}
+        </p>
+
+    </section>
+
+    <section class="result-section">
+
+        <div class="section-heading-row">
+
+            <div>
+                <p class="section-label">Coach Advice</p>
+                <h2>What This Means</h2>
+            </div>
+
+        </div>
+
+        <p>
+            {{ advice }}
+        </p>
+
+    </section>
+
+    {% if next_career %}
+
+    <section class="result-section next-career-panel">
+
+        <div>
+
+            <p class="section-label">
+                Recommended Next
+            </p>
+
+            <h2>{{ next_career }}</h2>
+
+            <p>
+                This career is in the same category and is a good next simulation
+                to compare against {{ career }}.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('career_detail', career=next_career) }}"
+            class="btn"
+        >
+            View Career
+        </a>
+
+    </section>
+
+    {% endif %}
+
+    <section class="result-section share-result-section">
+
+    <div class="section-heading-row">
+
+        <div>
+            <p class="section-label">Share</p>
+            <h2>Result Summary</h2>
         </div>
 
     </div>
 
-    <div class="achievement-box">
-
-        <h3>🏅 Achievement Unlocked</h3>
-
-        <h2>{{ achievement_title }}</h2>
-
-        <p>{{ achievement_text }}</p>
-
-    </div>
-
-    <div class="coach-box">
-
-        <h3>🤖 AI Career Coach</h3>
-
-        <p>{{ advice }}</p>
-
-    </div>
-
-    <div class="career-info">
-
-        <h3>Career Information</h3>
+    <div class="share-card" id="share-card">
 
         <p>
-            <strong>Average Salary:</strong>
-            {{ info.salary }}
+            I matched {{ score }}% with {{ career }} on Career Quest.
         </p>
 
         <p>
-            <strong>Education:</strong>
-            {{ info.education }}
+            My strongest skill:
+            {% if strongest_skill %}
+                {{ strongest_skill }}
+            {% else %}
+                Still discovering
+            {% endif %}
         </p>
 
+        {% if personality %}
+
         <p>
-            <strong>Job Growth:</strong>
-            {{ info.growth }}
+            My career personality:
+            {{ personality["title"] }}
+        </p>
+
+        {% endif %}
+
+        <p>
+            Career Quest v1.0
         </p>
 
     </div>
 
-    <h3>Skill Breakdown</h3>
+    <button
+        type="button"
+        class="btn"
+        onclick="copyShareResult()"
+    >
+        Copy Result
+    </button>
 
-    {% for skill, value in skills.items() %}
+    <p id="copy-message" class="copy-message"></p>
 
-        <p>{{ skill }} - {{ value }}%</p>
+</section>
 
-        <div class="bar">
+    <section class="result-actions">
 
-            <div class="fill"
-                 style="width: {{ value }}%;">
-            </div>
+        {% if session.get("player_name") %}
 
-        </div>
+        <form
+            action="{{ url_for('save_career', career=career) }}"
+            method="POST"
+        >
 
-        <br>
+            <button type="submit" class="btn secondary-btn">
 
-    {% endfor %}
+                {% if saved %}
+                    Saved Career
+                {% else %}
+                    Save Career
+                {% endif %}
 
-    <div class="button-row">
+            </button>
+
+        </form>
+
+        {% endif %}
 
         <a href="/interview" class="btn">
-            🎤 Career Interview
+            Practice Interview
         </a>
 
         <a href="/" class="btn secondary-btn">
-            🚀 Try Another Career
+            Explore Careers
         </a>
 
-    </div>
+    </section>
 
 </div>
+
+<script>
+
+function copyShareResult() {
+
+    const card = document.getElementById("share-card");
+    const message = document.getElementById("copy-message");
+
+    if (!card || !message) {
+        return;
+    }
+
+    const text = card.innerText.trim();
+
+    navigator.clipboard.writeText(text).then(function() {
+
+        message.textContent = "Result copied.";
+
+    }).catch(function() {
+
+        message.textContent = "Copy failed. You can manually select the text.";
+
+    });
+
+}
+
+</script>
 
 {% endblock %}

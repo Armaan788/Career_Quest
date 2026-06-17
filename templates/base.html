@@ -4,7 +4,7 @@
 
 <head>
 
-```
+
 <title>Career Quest</title>
 
 <link rel="icon"
@@ -12,7 +12,7 @@
 
 <link rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}">
-```
+
 
 </head>
 
@@ -20,7 +20,7 @@
 
 <nav class="navbar">
 
-```
+
 <div class="nav-brand">
 
     <img src="{{ url_for('static', filename='logo.png') }}"
@@ -43,6 +43,32 @@
         📊 Dashboard
     </a>
 
+    <a href="{{ url_for('leaderboards') }}">
+    Leaderboards
+</a>
+
+    <a href="{{ url_for('compare') }}">
+    Compare
+</a>
+
+    {% if session.get("player_name") %}
+<a href="{{ url_for('achievements_page') }}">
+    Achievements
+</a>
+{% endif %}
+
+    <a href="{{ url_for('saved_careers_page') }}">
+    Saved
+</a>
+
+    <a href="{{ url_for('daily_challenge') }}">
+    Daily
+</a>
+
+    <a href="/feedback">
+    Feedback
+</a>
+
     <span class="nav-player">
         👤 {{ session["player_name"] }}
     </span>
@@ -54,7 +80,7 @@
     </button>
 
 </div>
-```
+
 
 </nav>
 
@@ -63,18 +89,44 @@
 
 <footer class="footer">
 
-```
-🚀 Career Quest • Created by
+    <div class="footer-brand-line">
 
-<a href="https://github.com/Armaan788"
-   target="_blank">
+        <span>
+            Career Quest v1.0
+        </span>
 
-    Armaan Sharma
+        <span>
+            🚀 Career Quest
+        </span>
 
-</a>
+        <span>
+            Created by
+            <a href="https://github.com/Armaan788" target="_blank">
+                Armaan Sharma
+            </a>
+        </span>
 
-© 2026
-```
+        <span>
+            © 2026
+        </span>
+
+    </div>
+
+    <div class="footer-links">
+
+        <a href="/privacy">
+            Privacy
+        </a>
+
+        <a href="/support">
+            Support
+        </a>
+
+        <a href="/about">
+            About
+        </a>
+
+    </div>
 
 </footer>
 

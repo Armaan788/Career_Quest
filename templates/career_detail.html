@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="career-detail-page">
+
+    <section class="career-detail-hero">
+
+        <div>
+
+            <p class="section-label">
+                {{ category }} Career
+            </p>
+
+            <h1>{{ career }}</h1>
+
+            <p>
+                Explore the career, review the roadmap, then start the simulation.
+            </p>
+
+            <div class="career-detail-actions">
+
+                {% if session.get("player_name") %}
+
+                <form
+                    action="{{ url_for('save_career', career=career) }}"
+                    method="POST"
+                >
+                    <button type="submit" class="btn secondary-btn">
+                        {% if saved %}
+                            Saved Career
+                        {% else %}
+                            Save Career
+                        {% endif %}
+                    </button>
+                </form>
+
+                {% endif %}
+
+                <a href="{{ url_for('start', career=career) }}" class="btn">
+                    Start Simulation
+                </a>
+
+                <a href="{{ url_for('compare') }}" class="btn secondary-btn">
+                    Compare Careers
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="career-snapshot">
+
+            <h2>Career Snapshot</h2>
+
+            <div>
+                <span>Salary</span>
+                <strong>{{ info["salary"] }}</strong>
+            </div>
+
+            <div>
+                <span>Education</span>
+                <strong>{{ info["education"] }}</strong>
+            </div>
+
+            <div>
+                <span>Growth</span>
+                <strong>{{ info["growth"] }}</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="career-roadmap">
+
+        <div class="section-heading-row">
+
+            <div>
+                <p class="section-label">Roadmap</p>
+                <h2>How To Start Exploring {{ career }}</h2>
+            </div>
+
+        </div>
+
+        <div class="roadmap-grid">
+
+            <div class="roadmap-block">
+
+                <h3>Skills To Build</h3>
+
+                <ul>
+                    {% for skill in roadmap["skills"] %}
+                    <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+            <div class="roadmap-block">
+
+                <h3>School Subjects</h3>
+
+                <ul>
+                    {% for subject in roadmap["subjects"] %}
+                    <li>{{ subject }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+            <div class="roadmap-block">
+
+                <h3>Tools To Try</h3>
+
+                <ul>
+                    {% for tool in roadmap["tools"] %}
+                    <li>{{ tool }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="roadmap-next-step">
+
+            <p class="section-label">
+                First Project
+            </p>
+
+            <h3>{{ roadmap["project"] }}</h3>
+
+            <p>
+                {{ roadmap["next_step"] }}
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="career-preview-grid">
+
+        <div class="career-preview-panel">
+
+            <p class="section-label">Preview</p>
+
+            <h2>Simulation Preview</h2>
+
+            {% for story in preview_stories %}
+
+            <p>{{ story }}</p>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="career-preview-panel">
+
+            <p class="section-label">Scenarios</p>
+
+            <h2>Possible Scenarios</h2>
+
+            {% for scenario in preview_scenarios %}
+
+            <p>{{ scenario }}</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container achievements-page">
+
+    <header class="achievements-header">
+        <p class="section-label">Player Progress</p>
+
+        <h1>Achievement Gallery</h1>
+
+        <p>
+            {{ unlocked_count }} of {{ total_count }} achievements unlocked.
+        </p>
+    </header>
+
+    <div class="achievement-gallery">
+
+        {% for achievement in achievements %}
+
+        <div
+            class="gallery-achievement {% if achievement['unlocked'] %}unlocked{% else %}locked{% endif %}"
+        >
+
+            <span class="achievement-status">
+                {% if achievement["unlocked"] %}
+                    Unlocked
+                {% else %}
+                    Locked
+                {% endif %}
+            </span>
+
+            <h2>{{ achievement["title"] }}</h2>
+
+            <p>{{ achievement["description"] }}</p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

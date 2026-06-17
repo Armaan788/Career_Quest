@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="daily-challenge-card">
+
+        <p class="section-label">
+            Daily Challenge
+        </p>
+
+        <h1>Today's Career: {{ career }}</h1>
+
+        <p>
+            Complete today's challenge to earn 30 XP.
+        </p>
+
+        {% if message %}
+
+        <div class="success-message">
+            {{ message }}
+        </div>
+
+        {% endif %}
+
+        {% if completed %}
+
+        <button class="btn" disabled>
+            Completed Today
+        </button>
+
+        {% else %}
+
+        <form method="POST">
+
+            <button type="submit" class="btn">
+                Complete Challenge
+            </button>
+
+        </form>
+
+        {% endif %}
+
+        <a
+            href="{{ url_for('career_detail', career=career) }}"
+            class="btn secondary-btn"
+        >
+            View Career
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container match-page">
+
+    <header class="match-result-header">
+        <p class="section-label">Career Match Complete</p>
+
+        <h1>Your Top Career Matches</h1>
+
+        <p>
+            Your answers point toward these careers.
+        </p>
+    </header>
+
+    {% if recommendations %}
+
+    {% set top = recommendations[0] %}
+
+    <section class="top-match">
+
+        <p class="section-label">
+            Best Match
+        </p>
+
+        <h2>{{ top["name"] }}</h2>
+
+        <p>
+            This career best matches your interests and strengths.
+        </p>
+
+        <div class="top-match-details">
+
+            <span>
+                Salary: {{ top["info"]["salary"] }}
+            </span>
+
+            <span>
+                Growth: {{ top["info"]["growth"] }}
+            </span>
+
+        </div>
+
+        <a
+            href="{{ url_for('start', career=top['name']) }}"
+            class="btn"
+        >
+            Start Best Match
+        </a>
+
+    </section>
+
+
+    <section class="match-results">
+
+        {% for recommendation in recommendations[1:] %}
+
+        <div class="match-card">
+
+            <span class="match-rank">
+                #{{ loop.index + 1 }}
+            </span>
+
+            <h2>{{ recommendation["name"] }}</h2>
+
+            <p>
+                <strong>Salary:</strong>
+                {{ recommendation["info"]["salary"] }}
+            </p>
+
+            <p>
+                <strong>Education:</strong>
+                {{ recommendation["info"]["education"] }}
+            </p>
+
+            <p>
+                <strong>Growth:</strong>
+                {{ recommendation["info"]["growth"] }}
+            </p>
+
+            <a
+                href="{{ url_for('start', career=recommendation['name']) }}"
+                class="btn secondary-btn"
+            >
+                Try This Career
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+    {% endif %}
+
+    <div class="button-row">
+
+        <a href="/career-match/start" class="btn secondary-btn">
+            Retake Quiz
+        </a>
+
+        <a href="/" class="btn secondary-btn">
+            Explore All Careers
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

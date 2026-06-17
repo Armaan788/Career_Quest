@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="quiz-card">
+
+    <p>Question {{ index + 1 }} of {{ total }}</p>
+
+    <div class="bar">
+        <div
+            class="fill"
+            style="width: {{ ((index + 1) / total) * 100 }}%"
+        ></div>
+    </div>
+
+    <h1>Career Match</h1>
+
+    <p class="question">
+        {{ question["question"] }}
+    </p>
+
+    <form
+        action="{{ url_for('career_match') }}"
+        method="POST"
+    >
+        {% for option in question["options"] %}
+
+        <button
+            type="submit"
+            name="option"
+            value="{{ loop.index0 }}"
+            class="option-btn"
+        >
+            {{ option["text"] }}
+        </button>
+
+        {% endfor %}
+    </form>
+
+</div>
+
+{% endblock %}
