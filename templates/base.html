@@ -212,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         navLinks.classList.remove("is-open");
         menuToggle.setAttribute("aria-expanded", "false");
+        body.classList.remove("menu-open");
     }
 
     applySavedTheme();
@@ -237,6 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const opening = !navLinks.classList.contains("is-open");
             navLinks.classList.toggle("is-open", opening);
             menuToggle.setAttribute("aria-expanded", opening ? "true" : "false");
+            body.classList.toggle("menu-open", opening);
         });
 
         navLinks.querySelectorAll("a").forEach(function (link) {
@@ -268,6 +270,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (safetyBar) {
         safetyBar.hidden = onHomePage;
+        body.classList.toggle("has-navigation-safety", !onHomePage);
+    }
+
+    if (navLinks) {
+        navLinks.querySelectorAll("a").forEach(function (link) {
+            let linkPath = "/";
+
+            try {
+                linkPath = new URL(link.href, window.location.origin)
+                    .pathname
+                    .replace(/\/+$/, "") || "/";
+            } catch (error) {
+                linkPath = "/";
+            }
+
+            const exactMatch = linkPath === normalizedPath;
+            const sectionMatch = linkPath !== "/" &&
+                normalizedPath.startsWith(linkPath + "/");
+
+            if (exactMatch || sectionMatch) {
+                link.setAttribute("aria-current", "page");
+            }
+        });
     }
 
     if (backButton) {
