@@ -2,23 +2,41 @@
 
 {% block content %}
 
-<a href="/" class="floating-back">
-    ← Back
-</a>
-
 <div class="quiz-card">
 
-    <h2>{{ career }}</h2>
+    <div class="quiz-heading-row">
+        <div>
+            <p class="section-label">
+                Career Simulation
+            </p>
 
-    <p>
-        Question {{ index + 1 }} of {{ total }}
-    </p>
+            <h2>{{ career }}</h2>
+        </div>
+
+        <span class="quiz-question-count">
+            {{ index + 1 }} of {{ total }}
+        </span>
+    </div>
+
+    <div
+        class="quiz-progress"
+        role="progressbar"
+        aria-label="Simulation progress"
+        aria-valuemin="1"
+        aria-valuemax="{{ total }}"
+        aria-valuenow="{{ index + 1 }}"
+    >
+        <div
+            class="quiz-progress-fill"
+            style="width: {{ ((index + 1) / total * 100) | round }}%;"
+        ></div>
+    </div>
 
     {% if scenario %}
 
     <div class="scenario-box">
 
-        <h3>🎲 Today's Scenario</h3>
+        <h3>🎲 Today’s Scenario</h3>
 
         <p>{{ scenario }}</p>
 
@@ -38,7 +56,7 @@
         {{ q.q }}
     </div>
 
-    <form method="POST">
+    <form method="POST" class="quiz-options">
 
         {% for option, score in q.options %}
 
@@ -46,13 +64,19 @@
             type="submit"
             name="score"
             value="{{ score }}"
-            class="option-btn">
-            {{ option }}
+            class="option-btn"
+        >
+            <span>{{ option }}</span>
+            <span class="option-arrow" aria-hidden="true">→</span>
         </button>
 
         {% endfor %}
 
     </form>
+
+    <p class="quiz-help-text">
+        Choose the response that best matches what you would do.
+    </p>
 
 </div>
 

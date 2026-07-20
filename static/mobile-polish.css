@@ -1,0 +1,771 @@
+/*
+   Career Quest responsive polish
+   Loaded after style.css so the original visual design stays intact.
+*/
+
+:root {
+    --cq-page-padding: clamp(14px, 3vw, 24px);
+    --cq-safe-top: env(safe-area-inset-top, 0px);
+    --cq-safe-right: env(safe-area-inset-right, 0px);
+    --cq-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --cq-safe-left: env(safe-area-inset-left, 0px);
+    --cq-touch-size: 48px;
+    --cq-panel: rgba(15, 23, 42, 0.94);
+    --cq-panel-light: rgba(248, 250, 252, 0.97);
+    --cq-border: rgba(255, 255, 255, 0.13);
+    --cq-shadow: 0 18px 45px rgba(2, 6, 23, 0.28);
+}
+
+html {
+    min-width: 320px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding-right: max(var(--cq-page-padding), var(--cq-safe-right));
+    padding-bottom: max(24px, var(--cq-safe-bottom));
+    padding-left: max(var(--cq-page-padding), var(--cq-safe-left));
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button,
+.btn,
+.option-btn,
+.nav-links a,
+.mobile-menu-toggle,
+.theme-toggle,
+.app-back-button,
+.app-home-button {
+    touch-action: manipulation;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #60a5fa;
+    outline-offset: 3px;
+}
+
+.skip-link {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 5000;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: white;
+    background: #2563eb;
+    text-decoration: none;
+    transform: translateY(-150%);
+    transition: transform 0.18s ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+.site-main {
+    min-height: 60vh;
+}
+
+/* Navigation */
+
+.navbar {
+    isolation: isolate;
+    gap: 18px;
+}
+
+.nav-brand-link {
+    color: inherit;
+    text-decoration: none;
+    flex: 0 0 auto;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    min-height: 42px;
+    padding: 9px 13px;
+    border: 1px solid var(--cq-border);
+    border-radius: 12px;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.08);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.theme-toggle {
+    position: static;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    margin: 0;
+}
+
+.nav-links {
+    margin-left: auto;
+}
+
+.nav-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+}
+
+.navigation-safety-bar[hidden] {
+    display: none !important;
+}
+
+.navigation-safety-bar {
+    width: min(1200px, 100%);
+    margin: 16px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.app-back-button,
+.app-home-button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: 1px solid var(--cq-border);
+    border-radius: 12px;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    font-weight: 800;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.app-back-button:hover,
+.app-home-button:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+body.light-mode .mobile-menu-toggle,
+body.light-mode .app-back-button,
+body.light-mode .app-home-button {
+    border-color: rgba(15, 23, 42, 0.12);
+    background: rgba(15, 23, 42, 0.06);
+}
+
+/* Better controls and layout at every size */
+
+.btn,
+.option-btn {
+    border: 0;
+    cursor: pointer;
+}
+
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+.category-tabs {
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
+}
+
+.category-tab {
+    scroll-snap-align: start;
+    min-height: 44px;
+}
+
+.card,
+.compare-card,
+.match-card,
+.gallery-achievement,
+.saved-career-row,
+.ranking-row {
+    overflow-wrap: anywhere;
+}
+
+/* Quiz clarity */
+
+.quiz-card {
+    width: min(700px, 100%);
+}
+
+.quiz-heading-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    text-align: left;
+}
+
+.quiz-heading-row h2 {
+    margin-top: 5px;
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    line-height: 1.08;
+}
+
+.quiz-question-count {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    font-weight: 800;
+}
+
+.quiz-progress {
+    width: 100%;
+    height: 10px;
+    margin: 18px 0 24px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.13);
+}
+
+.quiz-progress-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #22c55e, #2dd4bf);
+    transition: width 0.35s ease;
+}
+
+.quiz-options {
+    display: grid;
+    gap: 12px;
+}
+
+.quiz-options .option-btn {
+    min-height: 56px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 15px 18px;
+    text-align: left;
+    line-height: 1.35;
+}
+
+.option-arrow {
+    flex: 0 0 auto;
+    font-size: 1.25rem;
+}
+
+.quiz-help-text {
+    margin-top: 18px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+body.light-mode .quiz-question-count {
+    border-color: rgba(15, 23, 42, 0.12);
+    background: rgba(15, 23, 42, 0.05);
+}
+
+body.light-mode .quiz-progress {
+    background: rgba(15, 23, 42, 0.12);
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+    body {
+        padding-top: var(--cq-safe-top);
+    }
+
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 2000;
+        min-height: 64px;
+        margin-right: calc(-1 * max(var(--cq-page-padding), var(--cq-safe-right)));
+        margin-left: calc(-1 * max(var(--cq-page-padding), var(--cq-safe-left)));
+        padding: 10px max(var(--cq-page-padding), var(--cq-safe-right)) 10px max(var(--cq-page-padding), var(--cq-safe-left));
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        background: var(--cq-panel);
+        border-bottom: 1px solid var(--cq-border);
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.18);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+
+    body.light-mode .navbar {
+        background: var(--cq-panel-light);
+        border-color: rgba(15, 23, 42, 0.1);
+    }
+
+    .nav-logo {
+        width: 38px;
+        height: 38px;
+        object-fit: cover;
+    }
+
+    .nav-brand {
+        min-width: 0;
+        font-size: 1rem;
+    }
+
+    .nav-brand span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .mobile-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: max(var(--cq-page-padding), var(--cq-safe-right));
+        left: max(var(--cq-page-padding), var(--cq-safe-left));
+        z-index: 2100;
+        max-height: min(70vh, 560px);
+        margin: 0;
+        padding: 10px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        overflow-y: auto;
+        border: 1px solid var(--cq-border);
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.985);
+        box-shadow: var(--cq-shadow);
+        overscroll-behavior: contain;
+    }
+
+    .nav-links.is-open {
+        display: flex;
+        animation: cqMenuIn 0.16s ease both;
+    }
+
+    body.light-mode .nav-links {
+        border-color: rgba(15, 23, 42, 0.12);
+        background: rgba(248, 250, 252, 0.99);
+    }
+
+    .nav-links a,
+    .nav-player {
+        width: 100%;
+        min-height: var(--cq-touch-size);
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 9px;
+        border-radius: 11px;
+        background: rgba(255, 255, 255, 0.07);
+        font-size: 1rem;
+        white-space: normal;
+    }
+
+    body.light-mode .nav-links a,
+    body.light-mode .nav-player {
+        background: rgba(15, 23, 42, 0.055);
+    }
+
+    .navigation-safety-bar {
+        margin-top: 12px;
+    }
+
+    .app-back-button,
+    .app-home-button {
+        min-height: var(--cq-touch-size);
+        flex: 1 1 0;
+    }
+
+    .container,
+    .result-page,
+    .legal-page,
+    .about-page,
+    .career-detail-page {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .hero,
+    .match-result-header,
+    .saved-header,
+    .leaderboard-header,
+    .achievements-header,
+    .compare-header {
+        margin-top: 28px;
+    }
+
+    .grid,
+    .match-results,
+    .compare-results,
+    .career-preview-grid,
+    .roadmap-grid,
+    .dashboard-grid,
+    .dashboard-two-column,
+    .profile-summary-grid,
+    .achievement-gallery,
+    .result-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+        min-width: 0;
+        min-height: 145px;
+    }
+
+    .btn,
+    .option-btn,
+    input,
+    select,
+    textarea {
+        min-height: var(--cq-touch-size);
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+
+    .button-row,
+    .result-actions,
+    .career-detail-actions,
+    .about-actions,
+    .compare-actions {
+        align-items: stretch;
+    }
+
+    .quiz-card,
+    .result-card {
+        margin: 24px auto 40px;
+    }
+
+    .result-page {
+        margin-top: 24px;
+    }
+
+    .result-hero,
+    .next-career-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+    }
+
+    .score-ring {
+        width: 145px;
+        height: 145px;
+    }
+
+    .footer {
+        margin-right: calc(-1 * max(var(--cq-page-padding), var(--cq-safe-right)));
+        margin-left: calc(-1 * max(var(--cq-page-padding), var(--cq-safe-left)));
+        padding-right: max(var(--cq-page-padding), var(--cq-safe-right));
+        padding-bottom: max(24px, var(--cq-safe-bottom));
+        padding-left: max(var(--cq-page-padding), var(--cq-safe-left));
+    }
+}
+
+/* Phone */
+
+@media (max-width: 700px) {
+    .nav-brand span {
+        display: inline;
+    }
+
+    .mobile-menu-toggle span:last-child {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        width: 42px;
+        min-width: 42px;
+        justify-content: center;
+        padding: 0;
+        font-size: 1.15rem;
+    }
+
+    .navigation-safety-bar {
+        position: sticky;
+        top: 68px;
+        z-index: 1500;
+        padding: 6px 0 8px;
+        background: linear-gradient(to bottom, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0));
+    }
+
+    body.light-mode .navigation-safety-bar {
+        background: linear-gradient(to bottom, rgba(248, 250, 252, 0.97), rgba(248, 250, 252, 0));
+    }
+
+    .grid,
+    .match-results,
+    .compare-results,
+    .career-preview-grid,
+    .roadmap-grid,
+    .dashboard-grid,
+    .dashboard-two-column,
+    .profile-summary-grid,
+    .achievement-gallery,
+    .result-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .career-category-panel .grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    .card {
+        min-height: 0;
+        padding: 20px;
+    }
+
+    .card:hover,
+    .btn:hover,
+    .option-btn:hover {
+        transform: none;
+    }
+
+    .hero {
+        margin: 24px 0 30px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2rem, 11vw, 2.75rem);
+    }
+
+    .hero p {
+        max-width: 34ch;
+        margin-inline: auto;
+        font-size: 1rem;
+        line-height: 1.55;
+    }
+
+    .main-logo {
+        width: 116px;
+    }
+
+    .name-card,
+    .player-corner,
+    .quiz-card,
+    .result-card,
+    .daily-challenge-card,
+    .result-hero,
+    .result-section,
+    .result-stat,
+    .personality-card,
+    .career-detail-hero,
+    .career-snapshot,
+    .roadmap-block,
+    .career-preview-panel,
+    .legal-section,
+    .about-section,
+    .about-feature {
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .name-card form,
+    .result-actions,
+    .career-detail-actions,
+    .about-actions,
+    .compare-actions,
+    .button-row,
+    .next-career-panel {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .name-card input,
+    .name-card .btn,
+    .result-actions .btn,
+    .result-actions form,
+    .result-actions form .btn,
+    .career-detail-actions .btn,
+    .career-detail-actions form,
+    .career-detail-actions form .btn,
+    .about-actions .btn,
+    .compare-actions .btn,
+    .button-row .btn,
+    .next-career-panel .btn {
+        width: 100%;
+        margin: 0;
+        text-align: center;
+    }
+
+    .quiz-heading-row {
+        display: block;
+    }
+
+    .quiz-question-count {
+        display: inline-flex;
+        margin-top: 12px;
+    }
+
+    .question {
+        margin: 24px 0 20px;
+        font-size: 1.28rem;
+        line-height: 1.42;
+        text-align: left;
+    }
+
+    .scenario-box,
+    .story-box {
+        text-align: left;
+    }
+
+    .quiz-options .option-btn {
+        min-height: 60px;
+        font-size: 1rem;
+    }
+
+    .result-hero,
+    .next-career-panel {
+        display: block;
+    }
+
+    .score-ring {
+        width: 132px;
+        height: 132px;
+        margin: 22px auto 0;
+    }
+
+    .score-ring strong {
+        font-size: 2rem;
+    }
+
+    .section-heading-row,
+    .career-browser-heading,
+    .category-panel-heading,
+    .dashboard-progress-top,
+    .ranking-heading {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .ranking-row {
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .ranking-value {
+        grid-column: 2;
+    }
+
+    .footer-brand-line,
+    .footer-links {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 390px) {
+    .nav-brand span {
+        display: none;
+    }
+
+    .nav-controls {
+        gap: 6px;
+    }
+
+    .navigation-safety-bar {
+        gap: 8px;
+    }
+
+    .app-back-button,
+    .app-home-button {
+        padding-inline: 10px;
+    }
+
+    .quiz-card,
+    .result-card,
+    .name-card,
+    .player-corner {
+        padding: 17px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (hover: none) {
+    .card:hover,
+    .btn:hover,
+    .option-btn:hover,
+    .app-back-button:hover,
+    .app-home-button:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@keyframes cqMenuIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
