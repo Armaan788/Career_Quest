@@ -22,118 +22,69 @@
 
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='mobile-polish.css') }}"
+        href="{{ url_for('static', filename='mobile-polish.css') }}?v=20260721-bottomnav1"
     >
 </head>
 
-<body>
+{% set current_path = request.path %}
+{% set home_active = current_path == '/' or current_path.startswith('/career/') or current_path.startswith('/start/') or current_path in ['/quiz', '/result', '/interview'] %}
+{% set match_active = current_path.startswith('/career-match') %}
+{% set dashboard_active = current_path.startswith('/dashboard') %}
+{% set saved_active = current_path.startswith('/saved-careers') %}
+{% set more_active = current_path.startswith('/leaderboards') or current_path.startswith('/compare') or current_path.startswith('/achievements') or current_path.startswith('/daily-challenge') or current_path.startswith('/feedback') or current_path.startswith('/privacy') or current_path.startswith('/support') or current_path.startswith('/about') %}
 
-<a class="skip-link" href="#main-content">
-    Skip to content
-</a>
+<body class="{% if current_path == '/' %}is-home-page{% endif %}">
 
-<nav class="navbar" id="site-navbar" aria-label="Main navigation">
+<a class="skip-link" href="#main-content">Skip to content</a>
 
-    <a class="nav-brand nav-brand-link" href="/" aria-label="Career Quest home">
-        <img
-            src="{{ url_for('static', filename='logo.png') }}"
-            class="nav-logo"
-            alt=""
-        >
-        <span>Career Quest</span>
-    </a>
-
-    <div class="nav-controls">
+<header class="app-topbar" id="app-topbar">
+    <div class="app-topbar-inner">
         <button
-            id="mobile-menu-toggle"
-            class="mobile-menu-toggle"
             type="button"
-            aria-expanded="false"
-            aria-controls="primary-nav-links"
+            class="topbar-back-button"
+            id="app-back-button"
+            aria-label="Go back"
+            hidden
         >
-            <span aria-hidden="true">☰</span>
-            <span>Menu</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6"></path>
+            </svg>
         </button>
 
-        <button
-            id="theme-toggle"
-            class="theme-toggle"
-            type="button"
-            aria-label="Switch color theme"
-            title="Switch color theme"
-        >
-            🌙
-        </button>
+        <a class="app-brand" href="/" aria-label="Career Quest home">
+            <img
+                src="{{ url_for('static', filename='logo.png') }}"
+                class="app-brand-logo"
+                alt=""
+            >
+            <span>Career Quest</span>
+        </a>
+
+        <div class="topbar-actions">
+            {% if session.get("player_name") %}
+            <button
+                class="topbar-player-button"
+                id="player-more-button"
+                type="button"
+                aria-label="Open player menu"
+            >
+                <span aria-hidden="true">👤</span>
+                <strong>{{ session["player_name"] }}</strong>
+            </button>
+            {% endif %}
+
+            <button
+                id="theme-toggle"
+                class="theme-toggle app-theme-toggle"
+                type="button"
+                aria-label="Switch color theme"
+                title="Switch color theme"
+            >
+                🌙
+            </button>
+        </div>
     </div>
-
-    <div class="nav-links" id="primary-nav-links">
-
-        <a href="/">
-            <span aria-hidden="true">🏠</span>
-            Home
-        </a>
-
-        {% if session.get("player_name") %}
-
-        <a href="/dashboard">
-            <span aria-hidden="true">📊</span>
-            Dashboard
-        </a>
-
-        <a href="{{ url_for('leaderboards') }}">
-            Leaderboards
-        </a>
-
-        <a href="{{ url_for('compare') }}">
-            Compare
-        </a>
-
-        <a href="{{ url_for('achievements_page') }}">
-            Achievements
-        </a>
-
-        <a href="{{ url_for('saved_careers_page') }}">
-            Saved
-        </a>
-
-        <a href="{{ url_for('daily_challenge') }}">
-            Daily
-        </a>
-
-        <a href="/feedback">
-            Feedback
-        </a>
-
-        <span class="nav-player">
-            <span aria-hidden="true">👤</span>
-            {{ session["player_name"] }}
-        </span>
-
-        {% endif %}
-
-    </div>
-
-</nav>
-
-<div
-    class="navigation-safety-bar"
-    id="navigation-safety-bar"
-    hidden
->
-    <button
-        type="button"
-        class="app-back-button"
-        id="app-back-button"
-    >
-        <span aria-hidden="true">←</span>
-        Back
-    </button>
-
-    <a href="/" class="app-home-button">
-        <span aria-hidden="true">⌂</span>
-        Home
-    </a>
-</div>
+</header>
 
 <main id="main-content" class="site-main">
     {% block content %}
@@ -141,12 +92,8 @@
 </main>
 
 <footer class="footer">
-
     <div class="footer-brand-line">
-
-        <span>
-            🚀 Career Quest v1.0
-        </span>
+        <span>🚀 Career Quest v1.0</span>
 
         <span>
             Created by
@@ -155,39 +102,171 @@
             </a>
         </span>
 
-        <span>
-            © 2026
-        </span>
-
+        <span>© 2026</span>
     </div>
 
     <div class="footer-links">
-
-        <a href="/privacy">
-            Privacy
-        </a>
-
-        <a href="/support">
-            Support
-        </a>
-
-        <a href="/about">
-            About
-        </a>
-
+        <a href="/privacy">Privacy</a>
+        <a href="/support">Support</a>
+        <a href="/about">About</a>
     </div>
-
 </footer>
+
+<nav class="bottom-app-nav" aria-label="Primary navigation">
+    <div class="bottom-app-nav-inner">
+        <a
+            href="/"
+            class="bottom-nav-item{% if home_active %} is-active{% endif %}"
+            {% if home_active %}aria-current="page"{% endif %}
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 11.5L12 4l9 7.5"></path>
+                <path d="M5.5 10.5V20h13v-9.5"></path>
+                <path d="M9.5 20v-5.5h5V20"></path>
+            </svg>
+            <span>Home</span>
+        </a>
+
+        <a
+            href="{{ url_for('start_career_match') }}"
+            class="bottom-nav-item{% if match_active %} is-active{% endif %}"
+            {% if match_active %}aria-current="page"{% endif %}
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="8.5"></circle>
+                <path d="M15.5 8.5l-2.1 4.9-4.9 2.1 2.1-4.9 4.9-2.1z"></path>
+            </svg>
+            <span>Discover</span>
+        </a>
+
+        <a
+            href="/dashboard"
+            class="bottom-nav-item{% if dashboard_active %} is-active{% endif %}"
+            {% if dashboard_active %}aria-current="page"{% endif %}
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="4" width="6" height="6" rx="1.5"></rect>
+                <rect x="14" y="4" width="6" height="6" rx="1.5"></rect>
+                <rect x="4" y="14" width="6" height="6" rx="1.5"></rect>
+                <rect x="14" y="14" width="6" height="6" rx="1.5"></rect>
+            </svg>
+            <span>Dashboard</span>
+        </a>
+
+        <a
+            href="{{ url_for('saved_careers_page') }}"
+            class="bottom-nav-item{% if saved_active %} is-active{% endif %}"
+            {% if saved_active %}aria-current="page"{% endif %}
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6.5 4.5h11v16l-5.5-3.6-5.5 3.6z"></path>
+            </svg>
+            <span>Saved</span>
+        </a>
+
+        <button
+            type="button"
+            class="bottom-nav-item bottom-nav-more{% if more_active %} is-active{% endif %}"
+            id="bottom-more-button"
+            aria-expanded="false"
+            aria-controls="more-navigation-sheet"
+            {% if more_active %}aria-current="page"{% endif %}
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="5" cy="12" r="1.5"></circle>
+                <circle cx="12" cy="12" r="1.5"></circle>
+                <circle cx="19" cy="12" r="1.5"></circle>
+            </svg>
+            <span>More</span>
+        </button>
+    </div>
+</nav>
+
+<div class="more-nav-layer" id="more-nav-layer" hidden>
+    <section
+        class="more-nav-sheet"
+        id="more-navigation-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="more-navigation-title"
+    >
+        <div class="more-nav-handle" aria-hidden="true"></div>
+
+        <div class="more-nav-header">
+            <div>
+                <span class="more-nav-kicker">Career Quest</span>
+                <h2 id="more-navigation-title">More</h2>
+            </div>
+
+            <button
+                type="button"
+                class="more-nav-close"
+                id="more-nav-close"
+                aria-label="Close menu"
+            >
+                ×
+            </button>
+        </div>
+
+        {% if session.get("player_name") %}
+        <div class="more-player-card">
+            <span class="more-player-avatar" aria-hidden="true">👤</span>
+            <div>
+                <span>Current explorer</span>
+                <strong>{{ session["player_name"] }}</strong>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="more-nav-grid">
+            <a href="{{ url_for('leaderboards') }}" class="more-nav-link{% if current_path.startswith('/leaderboards') %} is-active{% endif %}">
+                <span aria-hidden="true">🏆</span>
+                <div><strong>Leaderboards</strong><small>See top explorers</small></div>
+            </a>
+
+            <a href="{{ url_for('compare') }}" class="more-nav-link{% if current_path.startswith('/compare') %} is-active{% endif %}">
+                <span aria-hidden="true">⚖️</span>
+                <div><strong>Compare</strong><small>Compare career paths</small></div>
+            </a>
+
+            <a href="{{ url_for('achievements_page') }}" class="more-nav-link{% if current_path.startswith('/achievements') %} is-active{% endif %}">
+                <span aria-hidden="true">🎖️</span>
+                <div><strong>Achievements</strong><small>View your progress</small></div>
+            </a>
+
+            <a href="{{ url_for('daily_challenge') }}" class="more-nav-link{% if current_path.startswith('/daily-challenge') %} is-active{% endif %}">
+                <span aria-hidden="true">🔥</span>
+                <div><strong>Daily Challenge</strong><small>Keep your streak going</small></div>
+            </a>
+
+            <a href="/feedback" class="more-nav-link{% if current_path.startswith('/feedback') %} is-active{% endif %}">
+                <span aria-hidden="true">💬</span>
+                <div><strong>Feedback</strong><small>Help improve the app</small></div>
+            </a>
+
+            <a href="/about" class="more-nav-link{% if current_path.startswith('/about') %} is-active{% endif %}">
+                <span aria-hidden="true">ℹ️</span>
+                <div><strong>About</strong><small>Learn about Career Quest</small></div>
+            </a>
+        </div>
+
+        <div class="more-nav-secondary-links">
+            <a href="/privacy">Privacy</a>
+            <a href="/support">Support</a>
+        </div>
+    </section>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const body = document.body;
     const themeToggle = document.getElementById("theme-toggle");
-    const menuToggle = document.getElementById("mobile-menu-toggle");
-    const navLinks = document.getElementById("primary-nav-links");
-    const navbar = document.getElementById("site-navbar");
-    const safetyBar = document.getElementById("navigation-safety-bar");
     const backButton = document.getElementById("app-back-button");
+    const moreButton = document.getElementById("bottom-more-button");
+    const playerMoreButton = document.getElementById("player-more-button");
+    const moreLayer = document.getElementById("more-nav-layer");
+    const moreSheet = document.getElementById("more-navigation-sheet");
+    const moreClose = document.getElementById("more-nav-close");
 
     function applySavedTheme() {
         const savedTheme = localStorage.getItem("theme");
@@ -207,12 +286,30 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function closeMenu() {
-        if (!menuToggle || !navLinks) return;
+    function openMoreMenu() {
+        if (!moreLayer || !moreButton) return;
 
-        navLinks.classList.remove("is-open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        body.classList.remove("menu-open");
+        moreLayer.hidden = false;
+        body.classList.add("more-nav-open");
+        moreButton.setAttribute("aria-expanded", "true");
+
+        window.requestAnimationFrame(function () {
+            moreLayer.classList.add("is-open");
+            if (moreClose) moreClose.focus();
+        });
+    }
+
+    function closeMoreMenu(returnFocus) {
+        if (!moreLayer || !moreButton || moreLayer.hidden) return;
+
+        moreLayer.classList.remove("is-open");
+        body.classList.remove("more-nav-open");
+        moreButton.setAttribute("aria-expanded", "false");
+
+        window.setTimeout(function () {
+            moreLayer.hidden = true;
+            if (returnFocus) moreButton.focus();
+        }, 180);
     }
 
     applySavedTheme();
@@ -220,8 +317,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (themeToggle) {
         themeToggle.addEventListener("click", function () {
             body.classList.toggle("light-mode");
-
             const lightModeOn = body.classList.contains("light-mode");
+
             localStorage.setItem("theme", lightModeOn ? "light" : "dark");
             themeToggle.textContent = lightModeOn ? "☀️" : "🌙";
             themeToggle.setAttribute(
@@ -231,71 +328,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener("click", function (event) {
-            event.stopPropagation();
-
-            const opening = !navLinks.classList.contains("is-open");
-            navLinks.classList.toggle("is-open", opening);
-            menuToggle.setAttribute("aria-expanded", opening ? "true" : "false");
-            body.classList.toggle("menu-open", opening);
-        });
-
-        navLinks.querySelectorAll("a").forEach(function (link) {
-            link.addEventListener("click", closeMenu);
-        });
-
-        document.addEventListener("click", function (event) {
-            if (navbar && !navbar.contains(event.target)) {
-                closeMenu();
-            }
-        });
-
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape") {
-                closeMenu();
-                menuToggle.focus();
-            }
-        });
-
-        window.addEventListener("resize", function () {
-            if (window.innerWidth > 900) {
-                closeMenu();
-            }
-        });
-    }
-
     const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
-    const onHomePage = normalizedPath === "/";
-
-    if (safetyBar) {
-        safetyBar.hidden = onHomePage;
-        body.classList.toggle("has-navigation-safety", !onHomePage);
-    }
-
-    if (navLinks) {
-        navLinks.querySelectorAll("a").forEach(function (link) {
-            let linkPath = "/";
-
-            try {
-                linkPath = new URL(link.href, window.location.origin)
-                    .pathname
-                    .replace(/\/+$/, "") || "/";
-            } catch (error) {
-                linkPath = "/";
-            }
-
-            const exactMatch = linkPath === normalizedPath;
-            const sectionMatch = linkPath !== "/" &&
-                normalizedPath.startsWith(linkPath + "/");
-
-            if (exactMatch || sectionMatch) {
-                link.setAttribute("aria-current", "page");
-            }
-        });
-    }
 
     if (backButton) {
+        backButton.hidden = normalizedPath === "/";
+
         backButton.addEventListener("click", function () {
             let hasSameSiteReferrer = false;
 
@@ -313,6 +350,67 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    if (moreButton) {
+        moreButton.addEventListener("click", function () {
+            if (moreLayer && !moreLayer.hidden) {
+                closeMoreMenu(false);
+            } else {
+                openMoreMenu();
+            }
+        });
+    }
+
+    if (playerMoreButton) {
+        playerMoreButton.addEventListener("click", openMoreMenu);
+    }
+
+    if (moreClose) {
+        moreClose.addEventListener("click", function () {
+            closeMoreMenu(true);
+        });
+    }
+
+    if (moreLayer) {
+        moreLayer.addEventListener("click", function (event) {
+            if (event.target === moreLayer) {
+                closeMoreMenu(true);
+            }
+        });
+
+        moreLayer.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                closeMoreMenu(false);
+            });
+        });
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && moreLayer && !moreLayer.hidden) {
+            closeMoreMenu(true);
+        }
+
+        if (event.key === "Tab" && moreLayer && !moreLayer.hidden && moreSheet) {
+            const focusable = Array.from(
+                moreSheet.querySelectorAll(
+                    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                )
+            );
+
+            if (!focusable.length) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+    });
 });
 </script>
 

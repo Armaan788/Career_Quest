@@ -1072,3 +1072,643 @@ body.light-mode .nav-links a[aria-current="page"] {
         max-width: 50px;
     }
 }
+
+
+/* =====================================================
+   CAREER QUEST UNIVERSAL BOTTOM NAVIGATION (v3)
+   Visible on phone, tablet, desktop, and the App Store web view.
+===================================================== */
+
+:root {
+    --cq-bottom-nav-height: 72px;
+    --cq-topbar-height: 58px;
+    --cq-bottom-nav-width: 760px;
+}
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none;
+}
+
+@supports (overflow: clip) {
+    html,
+    body,
+    .site-main,
+    .footer {
+        overflow-x: clip !important;
+    }
+}
+
+body {
+    min-height: 100dvh;
+    margin: 0 !important;
+    padding: 0 0 calc(var(--cq-bottom-nav-height) + var(--cq-safe-bottom) + 34px) !important;
+    touch-action: pan-y pinch-zoom;
+}
+
+body.more-nav-open {
+    overflow: hidden !important;
+}
+
+.site-main {
+    width: min(1200px, 100%);
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    padding-right: max(var(--cq-page-padding), var(--cq-safe-right));
+    padding-left: max(var(--cq-page-padding), var(--cq-safe-left));
+}
+
+.footer {
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    padding-bottom: 24px !important;
+}
+
+/* Slim top header: branding, back, player, theme only */
+
+.app-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 3000;
+    width: 100%;
+    padding-top: var(--cq-safe-top);
+    color: white;
+    background: rgba(15, 23, 42, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 26px rgba(2, 6, 23, 0.16);
+    backdrop-filter: blur(20px) saturate(145%);
+    -webkit-backdrop-filter: blur(20px) saturate(145%);
+}
+
+body.light-mode .app-topbar {
+    color: #0f172a;
+    background: rgba(248, 250, 252, 0.93);
+    border-bottom-color: rgba(15, 23, 42, 0.09);
+}
+
+.app-topbar-inner {
+    width: min(1200px, 100%);
+    min-height: var(--cq-topbar-height);
+    margin: 0 auto;
+    padding: 7px max(var(--cq-page-padding), var(--cq-safe-right)) 7px max(var(--cq-page-padding), var(--cq-safe-left));
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.topbar-back-button,
+.app-theme-toggle,
+.topbar-player-button {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: inherit;
+    background: rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body.light-mode .topbar-back-button,
+body.light-mode .app-theme-toggle,
+body.light-mode .topbar-player-button {
+    border-color: rgba(15, 23, 42, 0.1);
+    background: rgba(15, 23, 42, 0.055);
+}
+
+.topbar-back-button,
+.app-theme-toggle {
+    position: static !important;
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-grid !important;
+    place-items: center !important;
+    border-radius: 13px !important;
+    line-height: 1 !important;
+}
+
+.topbar-back-button[hidden] {
+    display: none !important;
+}
+
+.topbar-back-button svg {
+    width: 23px;
+    height: 23px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.app-brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.app-brand-logo {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 7px 18px rgba(37, 99, 235, 0.22);
+}
+
+.app-brand span {
+    overflow: hidden;
+    color: inherit;
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.topbar-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.topbar-player-button {
+    max-width: 180px;
+    min-height: 42px;
+    padding: 8px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 13px;
+}
+
+.topbar-player-button strong {
+    overflow: hidden;
+    font-size: 0.88rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Universal app-style bottom bar */
+
+.bottom-app-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 4000;
+    padding: 0 max(10px, var(--cq-safe-right)) max(10px, var(--cq-safe-bottom)) max(10px, var(--cq-safe-left));
+    pointer-events: none;
+}
+
+.bottom-app-nav-inner {
+    width: min(var(--cq-bottom-nav-width), 100%);
+    min-height: var(--cq-bottom-nav-height);
+    margin: 0 auto;
+    padding: 7px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
+    color: #cbd5e1;
+    background: rgba(15, 23, 42, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 24px;
+    box-shadow: 0 18px 55px rgba(2, 6, 23, 0.36);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    pointer-events: auto;
+}
+
+body.light-mode .bottom-app-nav-inner {
+    color: #475569;
+    background: rgba(248, 250, 252, 0.95);
+    border-color: rgba(15, 23, 42, 0.11);
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.18);
+}
+
+.bottom-nav-item {
+    position: relative;
+    min-width: 0;
+    min-height: 56px;
+    margin: 0;
+    padding: 7px 5px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: 0;
+    border-radius: 17px;
+    color: inherit;
+    background: transparent;
+    text-decoration: none;
+    font: inherit;
+    cursor: pointer;
+    transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.bottom-nav-item svg {
+    width: 23px;
+    height: 23px;
+    flex: 0 0 23px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bottom-nav-item span {
+    width: 100%;
+    overflow: hidden;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bottom-nav-item:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+body.light-mode .bottom-nav-item:hover {
+    color: #0f172a;
+    background: rgba(15, 23, 42, 0.055);
+}
+
+.bottom-nav-item.is-active {
+    color: #ffffff;
+    background: linear-gradient(145deg, rgba(37, 99, 235, 0.95), rgba(124, 58, 237, 0.9));
+    box-shadow: 0 9px 24px rgba(37, 99, 235, 0.31), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    transform: translateY(-3px);
+}
+
+body.light-mode .bottom-nav-item.is-active {
+    color: #ffffff;
+}
+
+.bottom-nav-item.is-active::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    width: 18px;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateX(-50%);
+}
+
+/* More bottom sheet */
+
+.more-nav-layer[hidden] {
+    display: none !important;
+}
+
+.more-nav-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 3900;
+    padding: max(16px, var(--cq-safe-top)) max(12px, var(--cq-safe-right)) calc(var(--cq-bottom-nav-height) + var(--cq-safe-bottom) + 20px) max(12px, var(--cq-safe-left));
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(2, 6, 23, 0.48);
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.more-nav-layer.is-open {
+    opacity: 1;
+}
+
+.more-nav-sheet {
+    width: min(720px, 100%);
+    max-height: min(680px, calc(100dvh - var(--cq-bottom-nav-height) - var(--cq-safe-top) - var(--cq-safe-bottom) - 38px));
+    overflow-y: auto;
+    padding: 10px 18px 18px;
+    color: white;
+    background: rgba(15, 23, 42, 0.985);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 26px;
+    box-shadow: 0 28px 90px rgba(2, 6, 23, 0.48);
+    transform: translateY(24px) scale(0.985);
+    transition: transform 0.2s ease;
+    overscroll-behavior: contain;
+}
+
+.more-nav-layer.is-open .more-nav-sheet {
+    transform: translateY(0) scale(1);
+}
+
+body.light-mode .more-nav-sheet {
+    color: #0f172a;
+    background: rgba(248, 250, 252, 0.99);
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+.more-nav-handle {
+    width: 48px;
+    height: 5px;
+    margin: 1px auto 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+body.light-mode .more-nav-handle {
+    background: rgba(15, 23, 42, 0.15);
+}
+
+.more-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.more-nav-kicker {
+    display: block;
+    margin-bottom: 3px;
+    color: #93c5fd;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.more-nav-header h2 {
+    margin: 0;
+    font-size: 1.65rem;
+    letter-spacing: -0.04em;
+}
+
+.more-nav-close {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 13px;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+body.light-mode .more-nav-close {
+    border-color: rgba(15, 23, 42, 0.1);
+    background: rgba(15, 23, 42, 0.055);
+}
+
+.more-player-card {
+    margin-bottom: 14px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    border-radius: 17px;
+    background: rgba(59, 130, 246, 0.11);
+}
+
+.more-player-avatar {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.more-player-card span:not(.more-player-avatar) {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.more-player-card strong {
+    display: block;
+    margin-top: 2px;
+    font-size: 1rem;
+}
+
+.more-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.more-nav-link {
+    min-width: 0;
+    min-height: 74px;
+    padding: 13px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.065);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 17px;
+    text-decoration: none;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+body.light-mode .more-nav-link {
+    background: rgba(15, 23, 42, 0.045);
+    border-color: rgba(15, 23, 42, 0.07);
+}
+
+.more-nav-link > span {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 1.35rem;
+}
+
+body.light-mode .more-nav-link > span {
+    background: rgba(15, 23, 42, 0.06);
+}
+
+.more-nav-link strong,
+.more-nav-link small {
+    display: block;
+}
+
+.more-nav-link strong {
+    font-size: 0.92rem;
+}
+
+.more-nav-link small {
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    line-height: 1.25;
+}
+
+.more-nav-link:hover,
+.more-nav-link.is-active {
+    transform: translateY(-2px);
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(96, 165, 250, 0.26);
+}
+
+.more-nav-secondary-links {
+    margin-top: 14px;
+    padding-top: 13px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+body.light-mode .more-nav-secondary-links {
+    border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+.more-nav-secondary-links a {
+    color: #94a3b8;
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+/* Remove the old top navigation and old safety bar if stale markup is cached. */
+
+.navbar,
+.navigation-safety-bar,
+.mobile-menu-toggle,
+.nav-links {
+    display: none !important;
+}
+
+@media (max-width: 700px) {
+    :root {
+        --cq-bottom-nav-height: 68px;
+    }
+
+    .site-main {
+        padding-right: max(12px, var(--cq-safe-right));
+        padding-left: max(12px, var(--cq-safe-left));
+    }
+
+    .app-topbar-inner {
+        padding-right: max(10px, var(--cq-safe-right));
+        padding-left: max(10px, var(--cq-safe-left));
+        gap: 8px;
+    }
+
+    .app-brand-logo {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+
+    .topbar-player-button {
+        max-width: 118px;
+        padding-inline: 9px;
+    }
+
+    .topbar-player-button strong {
+        max-width: 72px;
+    }
+
+    .bottom-app-nav {
+        padding-right: max(6px, var(--cq-safe-right));
+        padding-bottom: max(6px, var(--cq-safe-bottom));
+        padding-left: max(6px, var(--cq-safe-left));
+    }
+
+    .bottom-app-nav-inner {
+        min-height: var(--cq-bottom-nav-height);
+        padding: 5px;
+        gap: 2px;
+        border-radius: 20px;
+    }
+
+    .bottom-nav-item {
+        min-height: 56px;
+        padding-inline: 2px;
+        border-radius: 15px;
+    }
+
+    .bottom-nav-item svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .bottom-nav-item span {
+        font-size: 0.64rem;
+    }
+
+    .more-nav-layer {
+        padding-right: max(8px, var(--cq-safe-right));
+        padding-left: max(8px, var(--cq-safe-left));
+    }
+
+    .more-nav-sheet {
+        padding: 9px 13px 15px;
+        border-radius: 22px;
+    }
+
+    .more-nav-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .more-nav-link {
+        min-height: 64px;
+    }
+}
+
+@media (max-width: 420px) {
+    .topbar-player-button {
+        display: none;
+    }
+
+    .app-brand span {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 350px) {
+    .app-brand span {
+        display: none;
+    }
+
+    .bottom-nav-item span {
+        font-size: 0.59rem;
+    }
+}
+
+@media (hover: none) {
+    .bottom-nav-item:hover,
+    .more-nav-link:hover {
+        transform: none;
+    }
+}
