@@ -22,7 +22,7 @@
 
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='mobile-polish.css') }}?v=20260721-bottomnav1"
+        href="{{ url_for('static', filename='mobile-polish.css') }}?v=20260721-bottomnav2"
     >
 </head>
 
@@ -30,8 +30,8 @@
 {% set home_active = current_path == '/' or current_path.startswith('/career/') or current_path.startswith('/start/') or current_path in ['/quiz', '/result', '/interview'] %}
 {% set match_active = current_path.startswith('/career-match') %}
 {% set dashboard_active = current_path.startswith('/dashboard') %}
-{% set saved_active = current_path.startswith('/saved-careers') %}
-{% set more_active = current_path.startswith('/leaderboards') or current_path.startswith('/compare') or current_path.startswith('/achievements') or current_path.startswith('/daily-challenge') or current_path.startswith('/feedback') or current_path.startswith('/privacy') or current_path.startswith('/support') or current_path.startswith('/about') %}
+{% set compare_active = current_path.startswith('/compare') %}
+{% set more_active = current_path.startswith('/saved-careers') or current_path.startswith('/achievements') or current_path.startswith('/daily-challenge') or current_path.startswith('/feedback') or current_path.startswith('/privacy') or current_path.startswith('/support') or current_path.startswith('/about') %}
 
 <body class="{% if current_path == '/' %}is-home-page{% endif %}">
 
@@ -94,21 +94,7 @@
 <footer class="footer">
     <div class="footer-brand-line">
         <span>🚀 Career Quest v1.0</span>
-
-        <span>
-            Created by
-            <a href="https://github.com/Armaan788" target="_blank" rel="noopener noreferrer">
-                Armaan Sharma
-            </a>
-        </span>
-
         <span>© 2026</span>
-    </div>
-
-    <div class="footer-links">
-        <a href="/privacy">Privacy</a>
-        <a href="/support">Support</a>
-        <a href="/about">About</a>
     </div>
 </footer>
 
@@ -154,14 +140,18 @@
         </a>
 
         <a
-            href="{{ url_for('saved_careers_page') }}"
-            class="bottom-nav-item{% if saved_active %} is-active{% endif %}"
-            {% if saved_active %}aria-current="page"{% endif %}
+            href="{{ url_for('compare') }}"
+            class="bottom-nav-item{% if compare_active %} is-active{% endif %}"
+            {% if compare_active %}aria-current="page"{% endif %}
         >
             <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6.5 4.5h11v16l-5.5-3.6-5.5 3.6z"></path>
+                <path d="M12 4v16"></path>
+                <path d="M7 7h10"></path>
+                <path d="M5 7l-3 6h6L5 7z"></path>
+                <path d="M19 7l-3 6h6l-3-6z"></path>
+                <path d="M8.5 20h7"></path>
             </svg>
-            <span>Saved</span>
+            <span>Compare</span>
         </a>
 
         <button
@@ -219,14 +209,9 @@
         {% endif %}
 
         <div class="more-nav-grid">
-            <a href="{{ url_for('leaderboards') }}" class="more-nav-link{% if current_path.startswith('/leaderboards') %} is-active{% endif %}">
-                <span aria-hidden="true">🏆</span>
-                <div><strong>Leaderboards</strong><small>See top explorers</small></div>
-            </a>
-
-            <a href="{{ url_for('compare') }}" class="more-nav-link{% if current_path.startswith('/compare') %} is-active{% endif %}">
-                <span aria-hidden="true">⚖️</span>
-                <div><strong>Compare</strong><small>Compare career paths</small></div>
+            <a href="{{ url_for('saved_careers_page') }}" class="more-nav-link{% if current_path.startswith('/saved-careers') %} is-active{% endif %}">
+                <span aria-hidden="true">🔖</span>
+                <div><strong>Saved Careers</strong><small>Return to your favorites</small></div>
             </a>
 
             <a href="{{ url_for('achievements_page') }}" class="more-nav-link{% if current_path.startswith('/achievements') %} is-active{% endif %}">
